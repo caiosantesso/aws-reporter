@@ -46,8 +46,13 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.1.0</version>
         <configuration>
-          <mainClass>dev.caiosantesso.aws.reporter.Main</mainClass>
-          <cleanupDaemonThreads>false</cleanupDaemonThreads>
+          <executable>java</executable>
+          <arguments>
+            <argument>-Djava.util.logging.config.file=src/main/resources/logger.properties</argument>
+            <argument>-classpath</argument>
+            <classpath/>
+            <argument>dev.caiosantesso.aws.reporter.Main</argument>
+          </arguments>
         </configuration>
       </plugin>
     </plugins>

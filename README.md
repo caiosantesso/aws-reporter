@@ -12,7 +12,7 @@ Toy program to fetch all lambda function versions from AWS.
 ![EditorConfig](https://img.shields.io/badge/Editor%20Config-E0EFEF?style=for-the-badge&logo=editorconfig&logoColor=000)
 ![IntelliJ](https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 
-## ✍️ Running
+## 🏃‍♀️ Running
 
 1. Install SDKMan!.
    ```shell
@@ -34,5 +34,13 @@ Toy program to fetch all lambda function versions from AWS.
    ```
 1. Run it.
    ```shell
-   mvn compile exec:java
+   mvn compile exec:exec
    ```
+1. The report will be available at `./reports/{lambdas,lambda_versions}/<timestamp>.csv`
+
+
+## TODO
+- Logger format.
+- picocli.
+- jlink.
+- JReleaser.
