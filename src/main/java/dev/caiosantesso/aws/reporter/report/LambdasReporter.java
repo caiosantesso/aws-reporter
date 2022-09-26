@@ -2,17 +2,13 @@ package dev.caiosantesso.aws.reporter.report;
 
 import dev.caiosantesso.aws.reporter.api.LambdasEndpoint;
 import dev.caiosantesso.aws.reporter.api.LambdasEndpoint.Lambda;
+import dev.caiosantesso.aws.reporter.file.Csv;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
-
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 public class LambdasReporter {
 
@@ -32,8 +28,8 @@ public class LambdasReporter {
         var start = LocalDateTime.now();
         var lambdas = lambdaSupplier.get();
         var csvRows = toCsvRows(lambdas);
-        var csv = saveToCsv(csvRows, dir);
-        printFooter(start, csv);
+        var csvPath = Csv.save(csvRows, dir);
+        printFooter(start, csvPath);
     }
 
 
@@ -56,23 +52,8 @@ public class LambdasReporter {
                 .toList();
     }
 
-    private static Path saveToCsv(Iterable<String> rows, String dir) {
-        var report = Path.of("reports/%s/%s.csv".formatted(dir, LocalDateTime.now()));
-        var parent = report.getParent();
-        try {
-            if (!Files.exists(parent)) {
-                Files.createDirectories(parent);
-            }
-            Files.write(report, rows, CREATE_NEW);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return report;
-    }
-
-
-    private void printFooter(LocalDateTime start, Path csv) {
-        logger.info(() -> "Saved at %s".formatted(csv.toAbsolutePath()));
+    private void printFooter(LocalDateTime start, String csvPath) {
+        logger.info(() -> "Saved at %s".formatted(csvPath));
         logger.info(() -> "Time elapsed (ms) %s".formatted(Duration
                 .between(start, LocalDateTime.now())
                 .toMillis()));
