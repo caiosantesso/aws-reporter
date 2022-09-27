@@ -6,7 +6,7 @@
 
   <groupId>dev.caiosantesso</groupId>
   <artifactId>aws-reporter</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>2022.09.alpha</version>
 
   <properties>
     <maven.compiler.source>19</maven.compiler.source>
@@ -19,7 +19,7 @@
       <dependency>
         <groupId>software.amazon.awssdk</groupId>
         <artifactId>bom</artifactId>
-        <version>2.17.280</version>
+        <version>2.17.283</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -47,19 +47,20 @@
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>3.1.0</version>
+        <artifactId>appassembler-maven-plugin</artifactId>
+        <version>2.1.0</version>
         <configuration>
-          <executable>java</executable>
-          <arguments>
-            <argument>-Djava.util.logging.config.file=src/main/resources/logger.properties</argument>
-            <argument>-classpath</argument>
-            <classpath/>
-            <argument>dev.caiosantesso.aws.reporter.Main</argument>
-            <argument>lambdas</argument>
-            <argument>latest</argument>
-            <argument>--with-header</argument>
-          </arguments>
+          <programs>
+            <program>
+              <mainClass>dev.caiosantesso.aws.reporter.Main</mainClass>
+              <id>awsreporter</id>
+              <jvmSettings>
+                <extraArguments>
+                  <extraArgument>-Djava.util.logging.config.file=src/main/resources/logger.properties</extraArgument>
+                </extraArguments>
+              </jvmSettings>
+            </program>
+          </programs>
         </configuration>
       </plugin>
     </plugins>

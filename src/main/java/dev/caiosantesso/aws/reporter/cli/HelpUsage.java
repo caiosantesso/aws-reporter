@@ -8,6 +8,7 @@ import picocli.CommandLine.Command;
         "JVM: ${java.version} (${java.vendor} ${java.vm.name} ${java.vm.version})",
         "OS: ${os.name} ${os.version} ${os.arch}"},
          optionListHeading = "%nOptions:%n",
-         commandListHeading = "%nCommands:%n")
+         commandListHeading = "%nCommands:%n",
+         descriptionHeading = "%n")
 public class HelpUsage {
 }
