@@ -6,7 +6,7 @@ import picocli.CommandLine.Mixin;
 
 @Command(name = "awsreporter",
          subcommands = {LambdasSubCommand.class, CommandLine.HelpCommand.class},
-         description = "%nList AWS resources",
+         description = "List AWS resources",
          mixinStandardHelpOptions = true)
 
 public class AwsReporterCommand {

@@ -5,7 +5,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 import picocli.CommandLine.Option;
 
-@Command(name = "lambdas", description = "%nList lambdas")
+@Command(name = "lambdas", description = "List lambdas")
 public class LambdasSubCommand {
     @Mixin
     private HelpUsage helpUsage;

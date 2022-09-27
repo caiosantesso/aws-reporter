@@ -31,14 +31,13 @@ Toy program to fetch all lambda function versions from AWS.
     aws_access_key_id = <>
     aws_secret_access_key = <>
    ```
-1. Modify the section in `pom.xml` according to the desired subcommand.
-   ```xml
-   <argument>latest</argument>
-   <argument>--with-header</argument>
-   ```
-1. Run it.
+1. Build the command.
    ```shell
-   mvn compile exec:exec
+   mvn package appassembler:assemble
+   ```
+1. Run it (Linux or MacOS).
+   ```shell
+    ./target/appassembler/bin/awsreporter lambdas latest --with-header
    ```
 1. The report will be available at `./reports/{lambdas,lambda_versions}/<timestamp>.csv`
 
