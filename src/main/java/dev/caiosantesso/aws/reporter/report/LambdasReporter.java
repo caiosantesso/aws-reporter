@@ -7,12 +7,17 @@ import dev.caiosantesso.aws.reporter.file.Csv;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 public class LambdasReporter {
 
-    private final Logger logger = Logger.getLogger(LambdasReporter.class.getName());
+    private static final Logger logger = Logger.getLogger(LambdasReporter.class.getName());
+    private final boolean insertHeader;
+
+    public LambdasReporter(boolean insertHeader) {this.insertHeader = insertHeader;}
 
     public void saveLatestToCsv() {
         logger.info(() -> "Fetching all of the latest lambdas");
@@ -32,7 +37,6 @@ public class LambdasReporter {
         printFooter(start, csvPath);
     }
 
-
     private static Collection<Lambda> fetchLatest() {
         try (LambdasEndpoint endpoint = new LambdasEndpoint()) {
             return endpoint.lambdas();
@@ -45,14 +49,17 @@ public class LambdasReporter {
         }
     }
 
-    private Iterable<String> toCsvRows(Collection<Lambda> lambdas) {
-        return lambdas
+    private List<String> toCsvRows(Collection<Lambda> lambdas) {
+        var stream = lambdas
                 .stream()
-                .map(Lambda::toCsvRow)
-                .toList();
+                .map(Lambda::toCsvRow);
+
+        if (insertHeader) stream = Stream.concat(Stream.of("name,runtime,version,codeSize"), stream);
+
+        return stream.toList();
     }
 
-    private void printFooter(LocalDateTime start, String csvPath) {
+    private static void printFooter(LocalDateTime start, String csvPath) {
         logger.info(() -> "Saved at %s".formatted(csvPath));
         logger.info(() -> "Time elapsed (ms) %s".formatted(Duration
                 .between(start, LocalDateTime.now())
